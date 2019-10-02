@@ -17,6 +17,8 @@
     <properties>
         <java.version>11</java.version>
         <dockerfile.maven.plugin.version>1.4.9</dockerfile.maven.plugin.version>
+        <postgresql.version>42.2.8</postgresql.version>
+        <swagger.version>2.9.2</swagger.version>
 
         <docker.image.prefix>leonakkermans</docker.image.prefix>
     </properties>
@@ -33,7 +35,19 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.8</version>
+            <version>${postgresql.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
 
         <dependency>
