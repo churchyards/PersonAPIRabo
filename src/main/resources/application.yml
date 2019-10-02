@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: person-api
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/persondb
+    platform: POSTGRESQL
+    username: postgres
+    password: admin
+    driverClassName: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQL95Dialect
+      show_sql: true
+    properties.hibernate.temp.use_jdbc_metadata_defaults: false
+
+server:
+  port: 8080
