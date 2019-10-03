@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import nl.lakkermans.personapi.dto.PersonDTO;
 import nl.lakkermans.personapi.model.Person;
 import nl.lakkermans.personapi.repo.PersonRepository;
-import nl.lakkermans.personapi.util.PersonTranslator;
+import nl.lakkermans.personapi.util.PersonMapper;
 import nl.lakkermans.personapi.web.exception.PersonNotFoundException;
 import nl.lakkermans.personapi.web.exception.PersonNotUniqueException;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class PersonService {
     private PersonRepository repository;
 
     public PersonDTO getPerson(Long id) {
-        return repository.findById(id).map(PersonTranslator::toDTO).orElseThrow(PersonNotFoundException::new);
+        return repository.findById(id).map(PersonMapper::toDTO).orElseThrow(PersonNotFoundException::new);
     }
 
     /**
@@ -38,8 +38,8 @@ public class PersonService {
         if (repository.existsByFirstNameAndLastName(person.getFirstName(), person.getLastName())) {
             throw new PersonNotUniqueException();
         }
-        Person savedPerson = repository.save(PersonTranslator.toModel(person));
-        return PersonTranslator.toDTO(savedPerson);
+        Person savedPerson = repository.save(PersonMapper.toModel(person));
+        return PersonMapper.toDTO(savedPerson);
     }
 
     public List<PersonDTO> getPeople() {

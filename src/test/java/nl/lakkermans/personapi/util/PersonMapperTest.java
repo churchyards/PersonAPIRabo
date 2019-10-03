@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
-public class PersonTranslatorTest {
+public class PersonMapperTest {
 
     private Person person;
     private PersonDTO personDTO;
@@ -48,12 +48,12 @@ public class PersonTranslatorTest {
 
     @Test
     public void testToDTO() {
-        assertEquals("Expecting response of the translator to match the personDTO", personDTO, PersonTranslator.toDTO(person));
+        assertEquals("Expecting response of the translator to match the personDTO", personDTO, PersonMapper.toDTO(person));
     }
 
     @Test
     public void testToModel() {
-        assertEquals("Expecting response of the translator to match the perso", person, PersonTranslator.toModel(personDTO));
+        assertEquals("Expecting response of the translator to match the perso", person, PersonMapper.toModel(personDTO));
     }
 
 
