@@ -67,4 +67,8 @@ public class PersonService {
         PersonMapper.update(dbPerson, person);
         return PersonMapper.toDTO(repository.save(dbPerson));
     }
+
+    public void deletePerson(Long id) {
+        repository.deleteById(id);
+    }
 }
