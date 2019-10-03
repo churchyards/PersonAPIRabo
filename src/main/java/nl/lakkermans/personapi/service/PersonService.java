@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +25,10 @@ public class PersonService {
 
     public PersonDTO getPerson(Long id) {
         return repository.findById(id).map(PersonMapper::toDTO).orElseThrow(PersonNotFoundException::new);
+    }
+
+    public List<PersonDTO> getPeople() {
+        return repository.findAll().stream().map(PersonMapper::toDTO).collect(Collectors.toList());
     }
 
     /**
@@ -42,7 +47,24 @@ public class PersonService {
         return PersonMapper.toDTO(savedPerson);
     }
 
-    public List<PersonDTO> getPeople() {
-        return repository.findAll().stream().map(PersonTranslator::toDTO).collect(Collectors.toList());
+    /**
+     * This method will update the Person if it's ID already exists in the database AND the possibly new firstName and lastName aren't already taken by an other Person.
+     *
+     * @param person The DTO that we want to update
+     * @return The newly updated PersonDTO
+     */
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public PersonDTO updatePerson(PersonDTO person) {
+        Person dbPerson = repository.findById(person.getId()).orElseThrow(() -> {
+            throw new PersonNotFoundException();
+        });
+
+        Optional<Person> byFirstNameAndLastName = repository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+        if (byFirstNameAndLastName.isPresent() && !byFirstNameAndLastName.get().getId().equals(person.getId())) {
+            throw new PersonNotUniqueException();
+        }
+
+        PersonMapper.update(dbPerson, person);
+        return PersonMapper.toDTO(repository.save(dbPerson));
     }
 }

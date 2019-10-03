@@ -30,4 +30,9 @@ public class PersonController {
     public PersonDTO createPerson(@RequestBody PersonDTO person) {
         return service.createPerson(person);
     }
-}
+
+    @PutMapping("/{personId}")
+    public PersonDTO updatePerson(@PathVariable("personId") Long id, @RequestBody PersonDTO person) {
+        person.setId(id);
+        return service.updatePerson(person);
+    }}
